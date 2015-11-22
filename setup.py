@@ -25,5 +25,6 @@ setup(
         'flask==0.10.1',
         'flask-marshmallow==0.6.2',
         'flask-script==2.0.5',
+        'peewee==2.7.3'
     ]
 )
