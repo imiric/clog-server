@@ -1,0 +1,10 @@
+{
+  "generator-flask-api": {
+    "appName": "clog",
+    "database": "sqlite",
+    "databaseMapper": "none",
+    "versioningScheme": "major",
+    "currentVersion": "v1",
+    "urlPrefix": "/api"
+  }
+}
