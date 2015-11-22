@@ -4,7 +4,7 @@ import os
 
 from flask.ext.script import Manager
 
-from clog import create_app
+from clog.app import create_app
 
 
 app = create_app(os.getenv('CLOG_CONFIG', 'default'))
