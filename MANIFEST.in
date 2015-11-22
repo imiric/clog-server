@@ -1,0 +1,2 @@
+include versioneer.py
+include clog/_version.py
