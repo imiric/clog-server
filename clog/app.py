@@ -1,15 +1,15 @@
 from flask import Flask
 from flask.ext.marshmallow import Marshmallow
 
-from config import config
+from config import get_config
 
 
 ma = Marshmallow()
 
 
-def create_app(config_name):
+def create_app():
     app = Flask(__name__)
-    app.config.from_object(config[config_name])
+    app.config.from_object(get_config())
 
     ma.init_app(app)
 

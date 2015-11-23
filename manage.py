@@ -1,13 +1,11 @@
 #! /usr/bin/env python
 
-import os
-
 from flask.ext.script import Manager
 
 from clog.app import create_app
 
 
-app = create_app(os.getenv('CLOG_CONFIG', 'default'))
+app = create_app()
 manager = Manager(app)
 
 

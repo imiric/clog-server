@@ -1,11 +1,11 @@
-import os
-
 import peewee as pw
 
-from config import basedir
+from config import get_config
+
+CONFIG = get_config()
 
 
-db = pw.SqliteDatabase(os.path.join(basedir, 'clog.db'))
+db = pw.SqliteDatabase(CONFIG.db_path)
 
 
 class BaseModel(pw.Model):
