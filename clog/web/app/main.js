@@ -1,5 +1,7 @@
 import 'normalizecss/normalize.css';
 import './base.css';
+import 'skeleton-css/css/skeleton.css';
+import './main.css';
 
 import $ from 'domtastic';
 import ClogClient from './client';
