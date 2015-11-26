@@ -34,3 +34,6 @@ export class ChartComponent extends $.BaseClass {
     this.data = data;
   }
 }
+
+export class Table extends $.BaseClass {
+}
