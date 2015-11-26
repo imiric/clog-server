@@ -1,5 +1,4 @@
 from ..app import ma
-from ..models.log import Log
 
 from marshmallow import post_dump, fields
 
@@ -8,7 +7,7 @@ class BaseSchema(ma.Schema):
     @post_dump(pass_many=True)
     def wrap(self, data, many):
         if many:
-            data = {'results': data, 'count': len(data)}
+            data = {'result': data, 'count': len(data)}
         return data
 
 

@@ -40,7 +40,7 @@ def test_get_logs(client):
     data = json.loads(res.data.decode())
     assert data == {
         'count': 1,
-        'results': [
+        'result': [
             {
                 'id': 1,
                 'source': 'test',
