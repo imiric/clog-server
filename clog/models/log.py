@@ -19,3 +19,7 @@ class Event(BaseModel):
 def create_tables():
     db.connect()
     db.create_tables([Log, Event])
+
+
+if __name__ == '__main__':
+    create_tables()
