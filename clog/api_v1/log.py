@@ -11,6 +11,7 @@ from ..utils import create_hash
 def get_logs():
     fmt = request.args.get('format')
     ival = request.args.get('interval')
+    order_by = request.args.get('order_by')
 
     data = {}
     if fmt == 'summary' and ival:
@@ -28,6 +29,11 @@ def get_logs():
         data['result'] = dict(res)
     else:
         all_events = Event.select()
+        if order_by:
+            field = getattr(Event, order_by.lstrip('-'))
+            if order_by[0] == '-':
+                field = field.desc()
+            all_events = all_events.order_by(field)
         data = events_schema.dump(all_events).data
 
     return jsonify(data)

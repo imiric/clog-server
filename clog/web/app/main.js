@@ -16,7 +16,7 @@ $(document).ready(() => {
     width: 800
   });
 
-  clog.getLogs('summary', 300, (resp) => {
+  clog.getLogs('summary', 300, undefined, (resp) => {
     let keys = Object.keys(resp.result),
         vals = keys.map(key => resp.result[key]);
     let data = {
