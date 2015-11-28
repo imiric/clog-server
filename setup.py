@@ -23,6 +23,7 @@ setup(
     packages=find_packages(exclude=['tests']),
     install_requires=[
         'flask==0.10.1',
+        'flask-cors==2.1.2',
         'flask-marshmallow==0.6.2',
         'flask-script==2.0.5',
         'peewee==2.7.3'

@@ -1,4 +1,5 @@
 from flask import jsonify, request, abort
+from flask_cors import cross_origin
 
 from . import api
 from ..models import db
@@ -8,6 +9,7 @@ from ..utils import create_hash
 
 
 @api.route('/logs/', methods=['GET'])
+@cross_origin(allow_headers=['Content-Type', 'X-Requested-With'])
 def get_logs():
     fmt = request.args.get('format')
     ival = request.args.get('interval')
@@ -52,7 +54,9 @@ def get_log(log_id):
 
 
 @api.route('/logs/', methods=['POST'])
+@cross_origin(allow_headers=['Content-Type', 'X-Requested-With'])
 def create_log():
+    # TODO: implement auth
     payload = request.get_json()
     data, errors = event_schema.load(payload)
 
