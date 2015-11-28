@@ -63,9 +63,13 @@ export function log(ctx) {
   clog.getLog(logId, (resp) => {
     c.append('<h5>Date</h5>');
     c.append(`<p>${resp.date}</p>`);
+    c.append('<h5>Hash</h5>');
+    c.append(`<p>${resp.log.hash}</p>`);
     c.append('<h5>Source</h5>');
     c.append(`<p>${resp.source}</p>`);
     c.append('<h5>Data</h5>');
     c.append(`<p>${resp.log.data}</p>`);
+    c.append('<h5>Metadata</h5>');
+    c.append(`<p>${resp.log.metadata}</p>`);
   });
 }
