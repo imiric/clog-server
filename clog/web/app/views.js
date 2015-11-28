@@ -5,19 +5,24 @@ import { ChartComponent as Chart, Table } from './components';
 
 // TODO: Figure out configuration handling.
 var clog = new ClogClient();
+var container = '#content';
 
 export function index() {
-  $('#content').empty();
-  $('#content').append('<h2>Log events</h2>');
-  $('#content').append('<div id="log-charts"/>');
-  $('#content').append('<div id="log-list"/>');
+  let c = $(container),
+      chartsEl = $('<div id="log-charts"/>'),
+      logsEl = $('<div id="log-list"/>');
+
+  c.empty();
+  c.append('<h3>Log events</h3>');
+  c.append(chartsEl);
+  c.append(logsEl);
 
   let chart = new Chart({
     id: 'log-chart',
     height: 400,
     width: 800
   });
-  let table = new Table($('<table><tr><th>ID</th><th>Date</th></tr></table>'));
+  let table = new Table('<table><tr><th>ID</th><th>Date</th></tr></table>');
 
   clog.getLogs('summary', 300, undefined, (resp) => {
     let keys = Object.keys(resp.result),
@@ -31,7 +36,9 @@ export function index() {
         }
       ]
     };
-    $('#log-charts').append(chart);
+    chartsEl.before('<h6>Events in the past 24 hours in 5 minute '
+                    + 'intervals<span title="Not really">*</span></h6>');
+    chartsEl.append(chart);
     chart.update(data);
     chart.render();
   });
@@ -39,7 +46,7 @@ export function index() {
   // XXX: Is there a way of setting just one argument by name in ES6?
   // E.g. `getLogs(cb=(resp) => ...)`.
   clog.getLogs(undefined, undefined, undefined, (resp) => {
-    $('#log-list').append(table);
+    logsEl.append(table);
     resp.result.forEach((el, idx) => {
       let link = `<a href="/log/${el.id}">${el.id}</a>`;
       table.append(`<tr><td>${link}</td><td>${el.date}</td></tr>`);

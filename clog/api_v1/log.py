@@ -17,6 +17,8 @@ def get_logs():
     if fmt == 'summary' and ival:
         # This query would be convoluted to write with the ORM, and it uses
         # SQLite-specific functions anyway, hence the raw SQL.
+        # TODO: Return proper timeslots. The current query returns aggregations
+        # with no time gaps between them.
         res = db.execute_sql("""
             -- Aggregate log events into time intervals
             SELECT
