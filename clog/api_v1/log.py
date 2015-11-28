@@ -2,6 +2,7 @@ from flask import jsonify, request, abort
 from flask_cors import cross_origin
 
 from . import api
+from ..app import limiter
 from ..models import db
 from ..models.log import Event, Log
 from ..schemas.log import event_schema, events_schema
@@ -53,8 +54,18 @@ def get_log(log_id):
     return jsonify(event_schema.dump(evt).data)
 
 
+def get_hash():
+    payload = request.get_json()
+    log = payload.get('log', {})
+    return create_hash(
+        log.get('data', ''),
+        log.get('metadata', {})
+    )
+
+
 @api.route('/logs/', methods=['POST'])
 @cross_origin(allow_headers=['Content-Type', 'X-Requested-With'])
+@limiter.limit('5/minute', key_func=get_hash)
 def create_log():
     # TODO: implement auth
     payload = request.get_json()
@@ -65,8 +76,7 @@ def create_log():
 
     with db.atomic():
         log, created = Log.get_or_create(
-            hash=create_hash(data['log']['data'],
-                             data['log'].get('metadata', {})),
+            hash=get_hash(),
             defaults=data['log']
         )
         data['log'] = log

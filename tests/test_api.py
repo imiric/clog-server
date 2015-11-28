@@ -90,3 +90,19 @@ def test_post_logs(client):
         'date': '2015-01-01T00:00:00+00:00',
         'log': expected_log
     }
+
+
+@pytest.mark.usefixtures('create_schema')
+def test_rate_limit(client):
+    res = None
+
+    for i in range(10):
+        res = client.post('/api/v1/logs/',
+                          data='{"log": {"data": "test"}, "source": "me"}',
+                          content_type='application/json')
+        if res.status_code == 429:
+            break
+
+    assert json.loads(res.data.decode()) == {
+        'error': 'exceeded ratelimit of 5 per 1 minute'
+    }
