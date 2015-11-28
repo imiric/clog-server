@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify, request, abort
 
 from . import api
 from ..models import db
@@ -37,6 +37,16 @@ def get_logs():
         data = events_schema.dump(all_events).data
 
     return jsonify(data)
+
+
+@api.route('/log/<int:log_id>', methods=['GET'])
+def get_log(log_id):
+    try:
+        evt = Event.get(Event.id == log_id)
+    except Event.DoesNotExist:
+        abort(404)
+
+    return jsonify(event_schema.dump(evt).data)
 
 
 @api.route('/logs/', methods=['POST'])

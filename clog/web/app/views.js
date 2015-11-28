@@ -41,7 +41,24 @@ export function index() {
   clog.getLogs(undefined, undefined, undefined, (resp) => {
     $('#log-list').append(table);
     resp.result.forEach((el, idx) => {
-      table.append(`<tr><td>${el.id}</td><td>${el.date}</td></tr>`);
+      let link = `<a href="/log/${el.id}">${el.id}</a>`;
+      table.append(`<tr><td>${link}</td><td>${el.date}</td></tr>`);
     });
+  });
+}
+
+export function log(ctx) {
+  let c = $(container),
+      logId = ctx.params.id;
+
+  c.empty();
+  c.append(`<h3>Log ${logId}</h3>`);
+  clog.getLog(logId, (resp) => {
+    c.append('<h5>Date</h5>');
+    c.append(`<p>${resp.date}</p>`);
+    c.append('<h5>Source</h5>');
+    c.append(`<p>${resp.source}</p>`);
+    c.append('<h5>Data</h5>');
+    c.append(`<p>${resp.log.data}</p>`);
   });
 }
