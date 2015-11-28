@@ -15,7 +15,7 @@ class LogSchema(BaseSchema):
     data = fields.Str(required=True)
 
     class Meta:
-        fields = ('id', 'data')
+        fields = ('id', 'data', 'metadata', 'hash')
 
 
 class EventSchema(BaseSchema):

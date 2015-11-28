@@ -65,7 +65,8 @@ def create_log():
 
     with db.atomic():
         log, created = Log.get_or_create(
-            hash=create_hash(data['log']['data']),
+            hash=create_hash(data['log']['data'],
+                             data['log'].get('metadata', {})),
             defaults=data['log']
         )
         data['log'] = log

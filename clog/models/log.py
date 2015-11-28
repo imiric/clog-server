@@ -8,6 +8,8 @@ from . import db, BaseModel
 class Log(BaseModel):
     hash = pw.CharField(max_length=255)
     data = pw.TextField()
+    # TODO: Make this a JSONField.
+    metadata = pw.TextField(default='{}')
 
 
 class Event(BaseModel):

@@ -14,7 +14,8 @@ def create_schema():
 def create_log_data(create_schema):
     from clog.models import db
     sql = [
-        "INSERT INTO log (hash, data) VALUES ('193fa', 'test')",
+        "INSERT INTO log (hash, data, metadata) "
+        "VALUES ('193fa', 'test', '{}')",
         "INSERT INTO event (log_id, source, date) "
         "VALUES (1, 'test', '2015-01-01')",
     ]
@@ -45,7 +46,8 @@ def test_get_logs(client):
                 'id': 1,
                 'source': 'test',
                 'date': '2015-01-01T00:00:00+00:00',
-                'log': {'data': 'test', 'id': 1}
+                'log': {'data': 'test', 'id': 1, 'hash': '193fa',
+                        'metadata': '{}'}
             }
         ]
     }
@@ -63,14 +65,21 @@ def test_post_logs(client):
                       content_type='application/json')
     assert res.status_code == 201
     data = json.loads(res.data.decode())
+
+    expected_log = {
+        'id': 1, 'data': 'post_test', 'metadata': '{}',
+        'hash': ('81ab1411a3a07804d4c1484e971bb9aa'
+                 '866d41ef66da89df40b4a1483c58141a')
+    }
     assert data == {
         'id': 1,
         'source': 'post_test',
         'date': '2015-01-01T00:00:00+00:00',
-        'log': {'id': 1, 'data': 'post_test'},
+        'log': expected_log
     }
 
-    # A second POST with the same log data should reuse the existing log record
+    # A second POST with the same log data should create a new event, but reuse
+    # the existing log record.
     res = client.post('/api/v1/logs/', data=json.dumps(post_data),
                       content_type='application/json')
     assert res.status_code == 201
@@ -79,5 +88,5 @@ def test_post_logs(client):
         'id': 2,
         'source': 'post_test',
         'date': '2015-01-01T00:00:00+00:00',
-        'log': {'id': 1, 'data': 'post_test'},
+        'log': expected_log
     }
