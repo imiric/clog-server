@@ -5,6 +5,9 @@
   "author": "Ivan Mirić <imiric@gmail.com>",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "build": "node_modules/.bin/webpack"
+  },
   "dependencies": {
     "chart.js": "^1.0.2",
     "domtastic": "^0.11.2",
